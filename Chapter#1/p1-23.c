@@ -1,18 +1,23 @@
 #include <stdio.h>
 
-/*this programm comment comments*/
+/*this programm deletes comments*/
 main(){
-	int c, stat, instr;
+	int c, stat, instr, get, exit;
 	stat = 0;
 	instr = 0;
-	while ((c=getchar()) != EOF){
+	exit = 0;
+	get = 1;
+	while (!exit){
+		if (get) c = getchar();
+		else get = 1;
+		if (c == EOF) exit = 1;
 		if( stat == 0){
 			if (c == '/' && instr == 0){
 				if ((c=getchar()) == '*')
 					stat = 1;
 				else{
 					putchar('/');
-					putchar(c);
+					get = 0;
 				}
 			}
 			else if (c == '"'){
@@ -26,6 +31,7 @@ main(){
 			if (c == '*')
 				if ((c=getchar()) == '/')
 					stat = 0;
+				else get = 0;
 
 		}
 	}
