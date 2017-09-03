@@ -22,7 +22,7 @@ double pop(void){
 
 void showTop(void){
     if (sp > 0)
-        printf("%f", val[sp-1]);
+        printf("Top = %f\n", val[sp-1]);
     else {
         printf("error: stack empty\n");
     }
