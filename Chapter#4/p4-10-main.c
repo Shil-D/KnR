@@ -25,7 +25,6 @@ main(){
     alpha = N_VARS + 1;
 
     while (( type = getop(s)) != EOF){
-        /*printf("type = %c\n", type);*/
         if (isupper(type)){
             alpha = type - 'A';
             push(vars[alpha]);
