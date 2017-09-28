@@ -1,15 +1,17 @@
 #include <stdio.h>
 
+
 main(){
     char v[50];
-    char s = "adding";
+    char s[] = "adding";
 
-    v[0] = 'n';
-    v[1] = 'g';
-    v[2] = '\0';
+    v[0] = 'i';
+    v[1] = 'n';
+    v[2] = 'g';
+    v[3] = '\0';
 
-    strcat(v, s);
-    printf("Result = %s", v);
+    
+    printf("Result = %d\n", strend(s, v));
     return 0;
 }
 
@@ -21,10 +23,14 @@ int strend(char *s,char *t ){
         ;
     while(*t++)
         ;
-    
+    t--;
+    s--;
     for ( ; t >= tstart && s >= sstart; t--, s--)
         if (*t != *s)
             return 0;
-    
-    return 1;
+
+
+    if (t > tstart)
+        return 0;
+    else return 1;
 }
