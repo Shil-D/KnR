@@ -9,7 +9,8 @@ int getint(int *pn){
 
     while(isspace(c = getch()))
         ;
-
+    
+    
     if (!isdigit(c) && c != EOF && c != '+' && c != '-'){
         ungetch(c);
         return 0;
@@ -22,7 +23,7 @@ int getint(int *pn){
             return 0;
         }
     }
-    
+
     for (*pn = 0; isdigit(c) ; c = getch())
         *pn = 10 * *pn + (c - '0');
 
@@ -31,9 +32,13 @@ int getint(int *pn){
         ungetch(c);
 
     return c;
+    *pn = 6;
+    return 0;
 }
 
 main(){
-    printf("Hi");
+    int t = 0;
+    int res = getint(&t);
+    printf("%d, %d\n", res, t);
     return 0;
 }
