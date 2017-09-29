@@ -1,38 +1,29 @@
 #include <stdio.h>
-#define MAX 1000
 
-int getline(char* s, int lim);
-void reverse(char* s);
+void strcat(char *s,char *t );
 
 main(){
-    char line[MAX];
+    char v[50];
+    char s[] = "adding";
 
-    while (getline(line, MAX) > 0){
-        reverse(line);
-        printf("%s\n", line);
-    }
+    v[0] = 'H';
+    v[1] = 'i';
+    v[2] = '\0';
 
+    strcat(v, s);
+    printf("Result = %s", v);
     return 0;
 }
 
-
-int getline(char* s, int lim){
-	int c,i;
-	for(i=0; i<lim-1 && (c=getchar())!=EOF && c!='\n'; ++i)
-		*s++ = c;
-	if (c == '\n')
-		*s++ = c;
-	*s = '\0';
-	return i;
+void strncat(char *s,char *t, int n){
+    while(*s++)
+        ;
+    s--;
+    while(*s++ = *t++ && n--)
+        ;
 }
 
-void reverse(char* s){
-    char* f = s;
-	char tmp;
-    for (; *s != '\n'; s++);
-	for (; s > f ; --s, ++f){
-		tmp = *s;
-		*s = *f;
-		*f = tmp;
-	}
+void strncpy(char *s,char *t, int n){
+    while(*s++ = *t++ && n--)
+        ;
 }
