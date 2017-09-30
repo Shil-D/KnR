@@ -1,6 +1,7 @@
 #include <stdio.h>
 
-void strcat(char *s,char *t );
+void strncat(char *s,char *t, int n);
+void strncpy(char *s,char *t, int n);
 
 main(){
     char v[50];
@@ -10,8 +11,10 @@ main(){
     v[1] = 'i';
     v[2] = '\0';
 
-    strcat(v, s);
-    printf("Result = %s", v);
+    strncat(v, s, 3);
+    printf("Result = %s\n", v);
+    strncpy(v, s, 4);
+    printf("Result = %s\n", v);
     return 0;
 }
 
@@ -19,11 +22,13 @@ void strncat(char *s,char *t, int n){
     while(*s++)
         ;
     s--;
-    while(*s++ = *t++ && n--)
+    while((*s++ = *t++) && --n)
         ;
+    *s = '\0';
 }
 
 void strncpy(char *s,char *t, int n){
-    while(*s++ = *t++ && n--)
+    while((*s++ = *t++) && --n)
         ;
+    *s = '\0';
 }
