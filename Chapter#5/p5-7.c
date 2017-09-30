@@ -17,7 +17,7 @@ main(){
         writelines(lineptr, nlines);
     } else{
         printf("input too big to sort\n");
-        return 1;        
+        return 1;
     }
 }
 
