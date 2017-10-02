@@ -1,7 +1,24 @@
 #include <stdio.h>
 
-main(){
+int day_of_year(int year, int month, int day);
+int month_day(int year, int yearday, int *pmonth , int *pday);
 
+main(){
+    int month, day, year, doy, res;
+
+    year = 2017;
+    month = 10;
+    day = 2;
+    
+    doy = day_of_year(year, month, day);
+    if (doy > 0)
+        printf("day_of_year = %d\n", doy);
+
+    doy = 366;
+    res = month_day(year, doy, &month, &day);
+
+    if (res > 0)
+        printf("month = %d, day = %d\n", month, day);
 
     return 0;
 }
@@ -30,7 +47,7 @@ int day_of_year(int year, int month, int day){
         month < 1  ||
         month > 12 ||
         day < 1 ||
-        day > day_tab[leap][month];
+        day > day_tab[leap][month]
         ){
             printf("Wrong data!");
             return 0;
@@ -41,6 +58,7 @@ int day_of_year(int year, int month, int day){
 }
 
 int month_day(int year, int yearday, int *pmonth , int *pday){
+    int i, leap;
     if (year < 0){
         printf("Wrong data!");
         return 0;
