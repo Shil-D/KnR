@@ -47,13 +47,13 @@ int day_of_year(int year, int month, int day){
         month < 1  ||
         month > 12 ||
         day < 1 ||
-        day > *(day_tab * leap + month)
+        day > *(*day_tab + 13 * leap + month)
         ){
             printf("Wrong data!");
             return 0;
         }
     for (i = 1; i < month; i++)
-        day += *(day_tab * leap + i);
+        day += *(*day_tab + 13 * leap + i);
     return day;    
 }
 
@@ -75,7 +75,7 @@ int month_day(int year, int yearday, int *pmonth , int *pday){
         }
 
     for (i = 1; yearday > day_tab[leap][i]; i++)
-        yearday -= *(day_tab * leap + i);
+        yearday -= *(*day_tab + 13 * leap + i);
     *pmonth = i;
     *pday = yearday;
 
