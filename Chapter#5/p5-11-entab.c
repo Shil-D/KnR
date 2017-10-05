@@ -1,20 +1,37 @@
 #include <stdio.h>
 #define TAB 4
 
-main(){
+main(int argc, char *argv[]){
     int i,j,c;
-    int tab = TAB;
-    
-    if (argc >= 2)
-        tab = atoi(argv[1]);
+    int tab[30];
+	int ntab = argc;
+
+	i=0;
+	while (--ntab)
+		tab[i++] = atoi(*++argv);
+
+	i=0;
 	
 	while ((c = getchar()) != EOF){
-		if (c == '\n') i = 0;
+		if (c == '\n') {
+			i = 0;
+			ntab = argc;
+		}
+		
 		if (c == ' ') {
 			i++ ;
-			if (i % tab == 0) {
-				i = 0;
-				putchar('\t');
+			if (ntab < argc-1){
+				if (i % tab[ntab] == 0) {
+					i = 0;
+					putchar('\t');
+					ntab++;
+				}
+			}
+			else{
+				if (i % TAB == 0) {
+					i = 0;
+					putchar('\t');
+				}
 			}
 		}
 		else {

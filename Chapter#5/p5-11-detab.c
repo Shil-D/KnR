@@ -4,21 +4,39 @@
 
 main(int argc, char *argv[]){
 	int i,c;
-	int tab = TAB;
+	int tab[30];
+	int ntab = argc;
 
-	if (argc >= 2)
-		tab = atoi(argv[1]);
+	i=0;
+	while (--ntab)
+		tab[i++] = atoi(*++argv);
+
+	i=0;
 		
 	while ((c = getchar()) != EOF){
 		++i;
-		if (c == '\n') i = 0;
+		if (c == '\n') {
+			i = 0;
+			ntab = 0;
+		}
 		
-		if (c == '\t') 
-			while ( i % tab != 0) {
-				putchar(' ');
-				++i;
+		if (c == '\t'){
+			if (ntab < argc-1){
+				while ( i % tab[ntab] != 0) {
+					putchar(' ');
+					++i;
+				}
+				ntab++;
 			}
-		else	putchar(c);
+			else 
+				while ( i % TAB != 0) {
+					putchar(' ');
+					++i;
+				}
+		}
+		else
+			putchar(c);
+
 	}
 	return 0;
 }

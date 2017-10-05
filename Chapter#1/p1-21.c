@@ -3,6 +3,7 @@
 
 main(){
 	int i,j,c;
+	i=0;
 	
 	while ((c = getchar()) != EOF){
 		if (c == '\n') i = 0;
