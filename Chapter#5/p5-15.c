@@ -13,21 +13,30 @@ void writelines(char *lineptr[], int nlines);
 void qsort(void *lineptr[], int left, int right, int (comp *)(void *, void *), int reverse);
 char *alloc(int);
 int numcmp(char *, char*);
+int lowercmp(char*, char*);
 
 main(int argc, char *argv[]){ 
     int nlines; /* number of input lines read */
     int numeric = 0;
     int reverse = 0;
+    int fold = 0;
 
     while (--argc > 0 =){
         if (strcmp(*++argv, "-n"))
             numeric = 1;
         else if (strcmp(*argv, "-r"))
             reverse = 1;
+        else if (strcmp(*argv, "-f"))
+            fold = 1;
     }
 
     if ((nlines = readlines(lineptr, MAXLINES)) >= 0) {
-        qsort((void **)lineptr, 0, nlines-1, (int (*)(void *, void *))(numeric ? numcmp : strcmp),reverse);
+        if (fold)
+            qsort((void **)lineptr, 0, nlines-1, (int (*)(void *, void *))(lowercmp),reverse);
+        else if (numeric)
+            qsort((void **)lineptr, 0, nlines-1, (int (*)(void *, void *))(numcmp),reverse);
+        else 
+            qsort((void **)lineptr, 0, nlines-1, (int (*)(void *, void *))(strcmp),reverse);
         writelines(lineptr, nlines);
         return 0;
     } else{
@@ -36,6 +45,12 @@ main(int argc, char *argv[]){
     }
 }
 
+int lowercmp(char *s1, char *s2){
+    for (; tolower(*s1) == (*s2); s1++, s2++)
+        if (*s1 == '\0')
+            return 0;
+    return tolower(*s1) - tolower(*s2);
+}
 
 int getline(char* s, int lim){
 	int c,i;
@@ -120,3 +135,4 @@ int numcpm(char *s1, char *s2){
         return 1;
     else return 0;
 }
+
