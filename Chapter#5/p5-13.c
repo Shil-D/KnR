@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 
 #define MAXLEN 100
@@ -24,6 +25,7 @@ int getline(char* s, int lim){
 
 main(int argc, char *argv[]){
     int n = DEFLINES;
+    int len;
     int nlines = 0;
     int last = 0;
     char line[MAXLEN];
@@ -32,8 +34,8 @@ main(int argc, char *argv[]){
 
 
     if (argc > 1){
-        if ((c = *++argv[0]) == '-'){
-            switch (c){
+        if ((c = **++argv) == '-'){
+            switch ((*argv)[1]){
                 case 'n':
                     n = atoi(*++argv);
                     break;
@@ -48,14 +50,15 @@ main(int argc, char *argv[]){
         if (allocp + len + 1> allocend){
             allocp = allocbuf;
         }
-        lineptr[last] = allocp;
+        lineptr[last++] = allocp;
         strcpy(allocp, line);
         allocp += len + 1;
         nlines++;
     }
 
     n = (nlines > n) ? n : nlines;
+    putchar('\n');
     for (i = last - n; n-- > 0; i++){
-        print("%s", lineptr);
+        printf("%s", lineptr[i]);
     }
 }
