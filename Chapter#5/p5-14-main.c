@@ -10,7 +10,7 @@ static char *allocp = allocbuf;
 
 int readlines(char *lineptr[], int nlines);
 void writelines(char *lineptr[], int nlines);
-void qsort(void *lineptr[], int left, int right, int (comp *)(void *, void *), int reverse);
+void qsort(void *lineptr[], int left, int right, int (* comp)(void *, void *), int reverse);
 char *alloc(int);
 int numcmp(char *, char*);
 
@@ -18,16 +18,24 @@ main(int argc, char *argv[]){
     int nlines; /* number of input lines read */
     int numeric = 0;
     int reverse = 0;
+    char t[] = "123456";
+    float q;
 
-    while (--argc > 0 =){
-        if (strcmp(*++argv, "-n"))
+    while (--argc > 0){
+        if (!strcmp(*++argv, "-n"))
             numeric = 1;
-        else if (strcmp(*argv, "-r"))
+        else if (!strcmp(*argv, "-r"))
             reverse = 1;
     }
+    printf ("numeric = %d\n rev = %d\n", numeric, reverse);
+    /*q = atof(t);
+    printf("String value = %s, Float value = %f\n", t, q);*/
 
     if ((nlines = readlines(lineptr, MAXLINES)) >= 0) {
-        qsort((void **)lineptr, 0, nlines-1, (int (*)(void *, void *))(numeric ? numcmp : strcmp),reverse);
+        if (numeric)
+            qsort((void **)lineptr, 0, nlines-1, (int (*)(void *, void *)) numcmp ,reverse);
+        else
+            qsort((void **)lineptr, 0, nlines-1, (int (*)(void *, void *)) strcmp ,reverse);
         writelines(lineptr, nlines);
         return 0;
     } else{
@@ -71,7 +79,7 @@ void writelines(char *lineptr[] , int nlines){
 }
 
     
-void qsort(void *lineptr[], int left, int right, int (comp *)(void *, void *), int reverse) {
+void qsort(void *v[], int left, int right, int (* comp)(void *, void *), int reverse) {
     int i, last;
     void swap(void *v[], int i, int j);
     
@@ -80,15 +88,15 @@ void qsort(void *lineptr[], int left, int right, int (comp *)(void *, void *), i
     swap(v, left, (left + right)/2);
     last = left;
     for (i = left+1; i <= right; i++)
-        if ((!reverse && (*comp)(v[i], v[left])) < 0) ||
-            (reverse && (*comp)(v[i], v[left])) > 0))
+        if ( (!reverse && (*comp)(v[i], v[left]) < 0) ||
+             ( reverse && (*comp)(v[i], v[left]) > 0))
             swap(v, ++last, i);
     swap(v, left, last);
-    qsort(v, left, last-1);
-    qsort(v, last+1, right);
+    qsort(v, left, last-1, comp, reverse);
+    qsort(v, last+1, right, comp, reverse);
 }
     
-void swap(char *v[], int i, int j){
+void swap(void *v[], int i, int j){
     char *temp;
 
     temp = v[i];
@@ -106,17 +114,4 @@ char *alloc(int n){
 void afree(char *p){
     if (p >=  allocbuf && p < allocbuf + ALLOCSIZE)
         allocp = p;
-}
-
-int numcpm(char *s1, char *s2){
-    double v1, v2;
-
-    v1 = atof(s1);
-    v2 = atof(s2);
-
-    if (v1 < v2)
-        return -1;
-    else if (v1 > v2)
-        return 1;
-    else return 0;
 }
